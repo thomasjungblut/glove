@@ -1,4 +1,4 @@
-This project is a convenience Java wrapper around GloVe word vectors and converter to more space efficient binary files, which also includes a random access lookup for very large vectors on disk.
+This project is a convenience Java wrapper around GloVe word vectors and converter to more space efficient binary files, which also includes a random access lookup for very large amount of vectors on disk.
 
 Caution: There isn't any unit tests yet.
 
@@ -12,7 +12,7 @@ Build the library first, you'll need the fat jar (glove*-shaded.jar) in the next
 Converting the text files to binary
 -----------------------------------
 
-To use the power of the library and space some disk space you should rewrite the file to binary first.
+To use the power of the library and save some disk space you should rewrite the file to binary first.
 This can be done by supplying the text file and an output folder:
 
 > java -cp glove-0.1-SNAPSHOT-shaded.jar de.jungblut.glove.examples.TextToBinaryConverterMain glove-vectors.txt glove-binary
@@ -71,7 +71,7 @@ You can also run it with an "interactive" menu like this:
 
 > java -cp glove-0.1-SNAPSHOT-shaded.jar de.jungblut.glove.examples.NearestNeighbourMain glove-binary
 
-Keep in mind that this takes up quite some memory since the KD-Tree is in memory, but the queries are fast.
+Keep in mind that this takes up quite some memory since the KD-Tree needs some space, but the queries are fast.
 
 Some example output on the small twitter file:
 
@@ -113,7 +113,7 @@ Vectors
 -------  
 
 The vector file contains (per string-vector pair):
- - the vector content encoded as a sequence of floats 
+ - the vector content encoded as a sequence of 4 byte floats 
  - each float is encoded using Float.floatToIntBits
 
 
