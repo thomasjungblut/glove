@@ -6,7 +6,7 @@ Caution: There isn't any unit tests yet.
 Examples of use
 ===================
 
-Build the library first, you'll need the fat jar (glove*-shaded.jar) in the next sections.
+Build the library first (instructions are at the bottom), you'll need the fat jar (glove*-shaded.jar) in the next sections.
 
 
 Converting the text files to binary
