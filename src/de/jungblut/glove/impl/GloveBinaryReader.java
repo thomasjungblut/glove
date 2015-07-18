@@ -16,6 +16,7 @@ import java.util.stream.StreamSupport;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.WritableUtils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 
 import de.jungblut.glove.GloveStreamReader;
@@ -57,6 +58,7 @@ public class GloveBinaryReader implements GloveStreamReader {
     final BufferedInputStream vec;
 
     long blockSize = -1;
+    long currentOffset = -1;
     String second = null;
 
     public FilesIterator(DataInputStream dict, BufferedInputStream vec) {
@@ -75,19 +77,37 @@ public class GloveBinaryReader implements GloveStreamReader {
         }
 
         String word = dict.readUTF();
-        @SuppressWarnings("unused")
         long off = WritableUtils.readVLong(dict);
+        Preconditions.checkArgument(off >= 0,
+            "Offset was negative! Dictionary seems corrupted.");
         if (blockSize == -1) {
           String word2 = dict.readUTF();
           long off2 = WritableUtils.readVLong(dict);
           blockSize = off2;
           second = word2;
+          currentOffset = off2;
+        } else {
+          // check block size consistency
+          Preconditions.checkArgument((currentOffset + blockSize) == off,
+              String.format(
+                  "Can't read different block sizes! Expected %d but was %d.",
+                  blockSize, off - currentOffset));
+          currentOffset = off;
         }
 
         return new StringVectorPair(word, readVec());
 
       } catch (EOFException e) {
-        // expected eod
+        // expected eod from the dictionary
+        try {
+          // check if the vector file has some bytes we were missing
+          Preconditions
+              .checkArgument(
+                  vec.read() == -1,
+                  "Vector file has more bytes than expected, dictionary seems inconsistent to the vector file");
+        } catch (IOException e1) {
+          // expect errors here for checking stuff
+        }
         return endOfData();
       } catch (IOException e) {
         throw new RuntimeException(e);
@@ -100,7 +120,16 @@ public class GloveBinaryReader implements GloveStreamReader {
 
       byte[] buf = new byte[4];
       for (int i = 0; i < v.getDimension(); i++) {
-        vec.read(buf);
+        try {
+          int read = vec.read(buf);
+          Preconditions
+              .checkArgument(read == 4,
+                  "Couldn't read the next four bytes from the file, vector file seems truncated");
+        } catch (EOFException e) {
+          throw new IOException(
+              "Unexpected end of file found while reading a vector of size "
+                  + dim);
+        }
         int n = ByteBuffer.wrap(buf).getInt();
         v.set(i, Float.intBitsToFloat(n));
       }

@@ -13,6 +13,8 @@ import java.util.stream.Stream;
 
 import org.apache.hadoop.io.WritableUtils;
 
+import com.google.common.base.Preconditions;
+
 import de.jungblut.glove.GloveWriter;
 import de.jungblut.glove.util.StringVectorPair;
 import de.jungblut.math.DoubleVector;
@@ -55,8 +57,14 @@ public class GloveBinaryWriter implements GloveWriter {
           }
 
           if (blockSize != buf.length) {
-            throw new IOException("can't write different block size! Expected "
-                + blockSize + " but was " + buf.length);
+            Preconditions
+                .checkArgument(
+                    blockSize == buf.length,
+                    String
+                        .format(
+                            "Can't write different block size! Expected %d but was %d. "
+                                + "This happened because the vectors in the stream had different dimensions.",
+                            blockSize, buf.length));
           }
 
           vec.write(buf);

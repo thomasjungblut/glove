@@ -1,6 +1,4 @@
-This project is a convenience Java wrapper around GloVe word vectors and converter to more space efficient binary files, which also includes a random access lookup for very large vectors on disk.
-
-Caution: There isn't any unit tests yet.
+This project is a convenience Java wrapper around GloVe word vectors and converter to more space efficient binary files, which also includes a random access lookup for very large amount of vectors on disk.
 
 
 Examples of use

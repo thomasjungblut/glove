@@ -80,6 +80,11 @@ public class GloveBinaryRandomAccessReader implements GloveRandomAccessReader {
 
   @Override
   public DoubleVector get(String word) throws IOException {
+
+    if (!contains(word)) {
+      return null;
+    }
+
     long offset = dictMap.get(word);
 
     // page the block in, read from it and wrap as a vector
