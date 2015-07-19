@@ -118,19 +118,21 @@ public class GloveBinaryReader implements GloveStreamReader {
       int dim = (int) (blockSize / 4);
       DoubleVector v = new DenseDoubleVector(dim);
 
-      byte[] buf = new byte[4];
+      byte[] buf = new byte[dim * 4];
+      try {
+        int read = vec.read(buf);
+        Preconditions.checkArgument(read == buf.length,
+            "Couldn't read the next " + buf.length
+                + " bytes from the file, vector file seems truncated");
+      } catch (EOFException e) {
+        throw new IOException(
+            "Unexpected end of file found while reading a vector of size "
+                + dim);
+      }
+
+      ByteBuffer wrap = ByteBuffer.wrap(buf);
       for (int i = 0; i < v.getDimension(); i++) {
-        try {
-          int read = vec.read(buf);
-          Preconditions
-              .checkArgument(read == 4,
-                  "Couldn't read the next four bytes from the file, vector file seems truncated");
-        } catch (EOFException e) {
-          throw new IOException(
-              "Unexpected end of file found while reading a vector of size "
-                  + dim);
-        }
-        int n = ByteBuffer.wrap(buf).getInt();
+        int n = wrap.getInt();
         v.set(i, Float.intBitsToFloat(n));
       }
 
