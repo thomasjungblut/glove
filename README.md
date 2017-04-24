@@ -1,18 +1,28 @@
 This project is a convenience Java wrapper around GloVe word vectors and converter to more space efficient binary files, which also includes a random access lookup for very large amount of vectors on disk.
 
-Examples of use
-===================
+Maven
+-----
 
-Build the library first (instructions are at the bottom), you'll need the fat jar (glove*-shaded.jar) in the next sections.
+If you use maven, you can get the latest release using the following dependency:
 
+```
+ <dependency>
+     <groupId>de.jungblut.glove</groupId>
+     <artifactId>glove</artifactId>
+     <version>0.1</version>
+ </dependency>
+```
+
+To use the library from the command line (with a fat jar) you can compile it with the instructions at the bottom. 
+If you'd like to use it from the code directly, below examples give away the classes that you can look into.   
 
 Converting the text files to binary
 -----------------------------------
-
+ 
 To use the power of the library and save some disk space you should rewrite the file to binary first.
 This can be done by supplying the text file and an output folder:
 
-> java -cp glove-0.1-SNAPSHOT-shaded.jar de.jungblut.glove.examples.TextToBinaryConverterMain glove-vectors.txt glove-binary
+> java -cp glove-0.2-SNAPSHOT-shaded.jar de.jungblut.glove.examples.TextToBinaryConverterMain glove-vectors.txt glove-binary
 
 Now you should have a "glove-binary" folder with two files in it, a smaller "dict.bin" and a bigger "vectors.bin".
 
@@ -49,7 +59,7 @@ Using my math library it is also easy to do the typical vector computations.
 
 You can execute the above using
 
-> java -cp glove-0.1-SNAPSHOT-shaded.jar de.jungblut.glove.examples.VectorLookupMain glove-binary
+> java -cp glove-0.2-SNAPSHOT-shaded.jar de.jungblut.glove.examples.VectorLookupMain glove-binary
 
 Output is:
 
@@ -66,7 +76,7 @@ You can also do efficient nearest neighbour queries using a KD-Tree. The full co
 
 You can also run it with an "interactive" menu like this:
 
-> java -cp glove-0.1-SNAPSHOT-shaded.jar de.jungblut.glove.examples.NearestNeighbourMain glove-binary
+> java -cp glove-0.2-SNAPSHOT-shaded.jar de.jungblut.glove.examples.NearestNeighbourMain glove-binary
 
 Keep in mind that this takes up quite some memory since the KD-Tree needs some space, but the queries are fast.
 
@@ -137,3 +147,9 @@ The created jars contains debuggable code + sources + javadocs.
 If you want to skip testcases you can use:
 
 > mvn clean package install -DskipTests
+
+If you want to skip the signing process you can do:
+
+> mvn clean package install -Dgpg.skip=true
+
+

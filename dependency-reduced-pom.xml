@@ -4,7 +4,7 @@
   <groupId>de.jungblut.glove</groupId>
   <artifactId>glove</artifactId>
   <name>Glove Utilities</name>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <description>some utils to read and write glove files</description>
   <url>https://github.com/thomasjungblut/autosummary</url>
   <prerequisites>
@@ -24,6 +24,11 @@
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
+  <scm>
+    <connection>scm:git:git@github.com:thomasjungblut/glove.git</connection>
+    <developerConnection>scm:git:git@github.com:thomasjungblut/glove.git</developerConnection>
+    <url>git@github.com:thomasjungblut/glove.git</url>
+  </scm>
   <build>
     <sourceDirectory>src/</sourceDirectory>
     <testSourceDirectory>test/</testSourceDirectory>
@@ -109,8 +114,38 @@
         </executions>
         <configuration />
       </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
