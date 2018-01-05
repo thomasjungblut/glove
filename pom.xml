@@ -6,7 +6,7 @@
 	<name>Glove Utilities</name>
 	<description>some utils to read and write glove files</description>
 	<url>https://github.com/thomasjungblut/autosummary</url>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<prerequisites>
 		<maven>3.0</maven>
@@ -150,11 +150,15 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.4.1</version>
 				<configuration>
+					<shadedArtifactAttached>true</shadedArtifactAttached>
+					<shadedClassifierName>jar-with-dependencies</shadedClassifierName>
 				</configuration>
 				<executions>
 					<execution>
@@ -165,6 +169,8 @@
 					</execution>
 				</executions>
 			</plugin>
+
+
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
