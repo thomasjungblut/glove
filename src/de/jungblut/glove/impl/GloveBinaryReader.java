@@ -13,14 +13,13 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.apache.hadoop.io.IOUtils;
-import org.apache.hadoop.io.WritableUtils;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.AbstractIterator;
 
 import de.jungblut.glove.GloveStreamReader;
+import de.jungblut.glove.util.IOUtils;
 import de.jungblut.glove.util.StringVectorPair;
+import de.jungblut.glove.util.WritableUtils;
 import de.jungblut.math.DoubleVector;
 import de.jungblut.math.dense.DenseDoubleVector;
 
@@ -44,9 +43,7 @@ public class GloveBinaryReader implements GloveStreamReader {
         .stream(Spliterators.spliteratorUnknownSize(filesIterator,
             Spliterator.ORDERED), false);
 
-    stream.onClose(() -> {
-      IOUtils.closeStream(filesIterator);
-    });
+    stream.onClose(() -> IOUtils.cleanup(filesIterator));
 
     return stream;
   }
@@ -141,8 +138,7 @@ public class GloveBinaryReader implements GloveStreamReader {
 
     @Override
     public void close() throws IOException {
-      IOUtils.closeStream(dict);
-      IOUtils.closeStream(vec);
+      IOUtils.cleanup(dict, vec);
     }
 
   }
