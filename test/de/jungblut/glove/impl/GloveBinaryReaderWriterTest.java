@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-import org.apache.hadoop.io.WritableUtils;
 import org.junit.Test;
 
 import de.jungblut.glove.GloveTestUtils;
 import de.jungblut.glove.util.StringVectorPair;
+import de.jungblut.glove.util.WritableUtils;
 
 public class GloveBinaryReaderWriterTest {
 

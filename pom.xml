@@ -58,11 +58,6 @@
 			<version>3.0.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-common</artifactId>
-			<version>2.2.0</version>
-		</dependency>
-		<dependency>
 			<groupId>de.jungblut.common</groupId>
 			<artifactId>thomasjungblut-common</artifactId>
 			<version>1.0</version>

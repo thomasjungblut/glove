@@ -11,12 +11,11 @@ import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-import org.apache.hadoop.io.WritableUtils;
-
 import com.google.common.base.Preconditions;
 
 import de.jungblut.glove.GloveWriter;
 import de.jungblut.glove.util.StringVectorPair;
+import de.jungblut.glove.util.WritableUtils;
 import de.jungblut.math.DoubleVector;
 
 public class GloveBinaryWriter implements GloveWriter {

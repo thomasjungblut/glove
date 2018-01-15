@@ -13,9 +13,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
 import java.nio.file.Path;
 
-import org.apache.hadoop.io.WritableUtils;
-
 import de.jungblut.glove.GloveRandomAccessReader;
+import de.jungblut.glove.util.WritableUtils;
 import de.jungblut.math.DoubleVector;
 import de.jungblut.math.dense.DenseDoubleVector;
 
